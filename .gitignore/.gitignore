@@ -1,0 +1,85 @@
+1.	#include<stdio.h> 
+2.	int n; 
+3.	struct process 
+4.	{ 
+5.	int p_no; 
+6.	int a_t,b_t,ct,w_t,taround_time,p; 
+7.	int flag; 
+8.	}p_list[100]; 
+9.	void Sorting() 
+10.	{ 
+11.	struct process p; 
+12.	int i, j; 
+13.	for(i=0;i<n-1;i++) 
+14.	{ 
+15.	for(j=i+1;j<n;j++) 
+16.	{ 
+17.	if(p_list[i].a_t > p_list[j].a_t) 
+18.	{ 
+19.	p = p_list[i]; 
+20.	p_list[i] = p_list[j]; 
+21.	p_list[j] = p; 
+22.	} 
+23.	} 
+24.	} 
+25.	} 
+26.	int main() 
+27.	{ 
+28.	int i,t=0,b_t=0,peak; 
+29.	int a[10]; 
+30.	float wait_time = 0, taround_time = 0, avg_w_t=0, avg_taround_time=0; 
+31.	printf("enter the no. of processes: "); 
+32.	scanf("%d",&n); 
+33.	for(i = 0; i < n; i++) 
+34.	{ 
+35.	p_list[i].p_no = i+1; 
+36.	printf("\nEnter Details For P%d process:-\n", p_list[i].p_no); 
+37.	printf("Enter Arrival Time: "); 
+38.	scanf("%d", &p_list[i].a_t ); 
+39.	printf("Enter Burst Time: "); 
+40.	scanf("%d", &p_list[i].b_t); 
+41.	p_list[i].flag = 0; 
+42.	b_t = b_t + p_list[i].b_t; 
+43.	} 
+44.	Sorting(); 
+45.	for(int i=0;i<n;i++) 
+46.	{ 
+47.	a[i]=p_list[i].b_t; 
+48.	} 
+49.	p_list[9].b_t = 9999; 
+50.	for(t = p_list[0].a_t; t <= b_t+1;) 
+51.	{ 
+52.	peak = 9; 
+53.	for(i=0;i<n;i++) 
+54.	{ 
+55.	if(p_list[i].a_t <= t && p_list[i].b_t < p_list[peak].b_t && p_list[i].flag != 1) 
+56.	{ 
+57.	peak = i; 
+58.	} 
+59.	if(p_list[peak].b_t==0 && p_list[i].flag != 1) 
+60.	{ 
+61.	p_list[i].flag = 1; 
+62.	p_list[peak].ct=t;p_list[peak].b_t=9999; 
+63.	printf("\nthe process P%d completes in %d\n",p_list[i].p_no,p_list[peak].ct); 
+64.	} 
+65.	} 
+66.	t++; 
+67.	(p_list[peak].b_t)--; 
+68.	} 
+69.	printf("\n-----------------------------------\n"); 
+70.	for(i=0;i<n;i++) 
+71.	{ 
+72.	p_list[i].taround_time=(p_list[i].ct)-(p_list[i].a_t); 
+73.	avg_taround_time=avg_taround_time+p_list[i].taround_time; 
+74.	p_list[i].w_t=((p_list[i].taround_time)-a[i]); 
+75.	avg_w_t=avg_w_t+p_list[i].w_t; 
+76.	}  
+77.	printf("PNO\tAT\tCT\tTA\tWTt\n"); 
+78.	printf("-----------------------------------\n"); 
+79.	for(i=0;i<n;i++) 80.       { 81.        
+ 	printf("P%d\t%d\t%d\t%d\t%d\n",p_list[i].p_no,p_list[i].a_t,p_list[i].ct,p_list[i].taround_time ,p_list[i].w_t);   
+82.	} 
+83.	printf("\n-----------------------------------\n"); 
+84.	printf("Average Turn around Time: %.2f\t\n\n",avg_taround_time/n); 
+85.	printf("Average Waiting Time :\t %.2f\t\n",avg_w_t/n);     
+86.	} 
